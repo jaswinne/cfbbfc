@@ -1,5 +1,5 @@
 fs = require('fs');
-fs.readFile( __dirname + '/Conferences', function (err, data) {
+fs.readFile( __dirname + '/conferences.txt', function (err, data) {
   if (err) {
     throw err; 
   }
