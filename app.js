@@ -47,22 +47,22 @@ class Game{
 
 		this.date = inputArr[0];
 		var index = 1;
-		this.firstName = "";
+		var firstName = "";
 		while(isNaN(inputArr[index])){
-			this.firstName += inputArr[index++] + " ";
+			firstName += inputArr[index++] + " ";
 		}
-		this.firstScore = inputArr[index++];
-		this.secondName = "";
+		var firstScore = inputArr[index++];
+		var secondName = "";
 		while(isNaN(inputArr[index])){
-			this.secondName += inputArr[index++] + " ";
+			secondName += inputArr[index++] + " ";
 		}
-		this.secondScore = inputArr[index];
+		var secondScore = inputArr[index];
 
 		//
 		//   Using it
 		//
 
-		this.score = new Score(this.firstName, this.firstScore, this.secondName, this.secondScore);
+		this.score = new Score(firstName, firstScore, secondName, secondScore);
 	}
 
 	toString(){
