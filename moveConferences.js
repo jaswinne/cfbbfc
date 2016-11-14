@@ -1,6 +1,4 @@
 fs = require('fs');
-loadTeams();
-
 
 function loadTeams(){
 	fs.readFile( __dirname + '/conferences.txt', function (err, data) {
@@ -31,7 +29,7 @@ class Team{
 		this.conference = conference;
 		this.wins = 0;
 		this.losses = 0;
-		console.log(toString())
+		this.games = []
 	}
 
 	toString(){
