@@ -43,6 +43,7 @@ var DB = {
         //create the game schema
         DB.gameSchema = new DB.Schema({
           id: DB.Schema.ObjectId,
+          season: { type: String, required: true },
           away_team: {
             team_id: { type: String, required: false },
             score: { type: String, required: false },
@@ -64,7 +65,7 @@ var DB = {
       });
     },
     // functions for API
-    //add user
+    //add team
     add_team: function (school, mascot, rank, wins, losses, ties, callback) {
         var instance = new DB.team();
         //required fields
