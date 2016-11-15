@@ -25,7 +25,10 @@ function loadTeams(){
 
 class Team{
 	constructor(name, conference){
-		this.teamName = name;
+		var arr = name.split(':');
+		this.lookupName = arr[0];
+		this.teamName = arr[1];
+		this.mascot = arr[2];
 		this.conference = conference;
 		this.wins = 0;
 		this.losses = 0;
@@ -33,7 +36,7 @@ class Team{
 	}
 
 	toString(){
-		return `${this.teamName} ${this.conference}`;
+		return `${this.teamName} ${this.mascot} : ${this.conference}`;
 	}
 }
 
@@ -65,3 +68,4 @@ class Game{
 		}
 	}
 }
+loadTeams();
