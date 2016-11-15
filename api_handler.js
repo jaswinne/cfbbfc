@@ -87,6 +87,7 @@ var API = {
         //required fields
         var school = req.body.school;
         var mascot = req.body.mascot;
+        var nickname = req.body.nickname;
         //unrequired fields
         var rank = req.body.rank;
         var wins = req.body.wins;
@@ -96,7 +97,7 @@ var API = {
           rank = "unranked";
         }
         if (school != null && mascot != null) {
-            API.database.add_team(school, mascot, rank, wins, losses, ties,
+            API.database.add_team(school, mascot, rank, nickname, wins, losses, ties,
             function(team) {
                 if (team) {
                     response.team = team;

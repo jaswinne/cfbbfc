@@ -27,6 +27,7 @@ var DB = {
           id: DB.Schema.ObjectId,
           school: { type: String, unique: true, required: true },
           mascot: { type: String, required: true },
+          nickname: { type: String, required: true },
           rank: { type: String, required: false },
           record: {
             wins: { type: String, required: false },
@@ -66,11 +67,12 @@ var DB = {
     },
     // functions for API
     //add team
-    add_team: function (school, mascot, rank, wins, losses, ties, callback) {
+    add_team: function (school, mascot, rank, nickname, wins, losses, ties, callback) {
         var instance = new DB.team();
         //required fields
         instance.school = school;
         instance.mascot = mascot;
+        instance.nickname = nickname;
         //unrequired fields
         instance.rank = rank;
         instance.record.wins = wins;
