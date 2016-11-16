@@ -22,8 +22,8 @@ AAC
 *SMU:Southern Methodist:Mustangs
 *Tulane:Tulane:Green Wave
 *Temple:Temple:Owls
-*South Florida:Bulls
-*UCF:Central Florida
+*South Florida:South Florida:Bulls
+*UCF:Central Florida:Knights
 *Cincinnati:Cincinnati:Bearcats
 *East Carolina:East Carolina:Pirates
 *Connecticut:Connecticut:Huskies
@@ -94,16 +94,16 @@ Mid American
 Mountain West
 *Wyoming:Wyoming:Cowboys
 *Boise St:Boise State:Broncos
-*New Mexico:New Mexico:
-*Colorado St:Colorado State
-*Air Force:Air Force:
+*New Mexico:New Mexico:Lobos
+*Colorado St:Colorado State:Rams
+*Air Force:Air Force:Falcons
 *Utah St:Utah State:Aggies
-*San Diego St:San Diego State:
+*San Diego St:San Diego State:Aztecs
 *Hawaii:Hawaii:Rainbow Warriors
 *UNLV:UNLV:Runnin' Rebels
-*San Jose St:San Jose State:
+*San Jose St:San Jose State:Spartans
 *Nevada:Nevada:Wolfpack
-*Fresno St:Fresno State
+*Fresno St:Fresno State:Bulldogs
 
 Pac-12
 *Washington:Washington:Huskies
