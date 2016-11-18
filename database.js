@@ -29,6 +29,7 @@ var DB = {
           mascot: { type: String, required: true },
           nickname: { type: String, required: true },
           rank: { type: String, required: false },
+          confrence: { type: String, required: false },
           record: {
             wins: { type: String, required: false },
             losses: { type: String, required: false },
@@ -104,10 +105,17 @@ var DB = {
         });
     },
     //add conference
-    add_conference_team: function (conference_id, team_id, callback) {
-      DB.database.collection('conferences').update({'_id':DB.ObjectId(conference_id)}, {$addToSet: { "teams": team_id}} , function(error, result) {
+    add_conference_team: function (conference, school, callback) {
+      DB.database.collection('conferences').update({'name': conference }, {$addToSet: { "teams": school}} , function(error, result) {
           if (result) {
-              callback(result);
+              DB.database.collection('teams').update({'school': school }, {$addToSet: { "conference": conference}} , function(error, result2) {
+                if (result2) {
+                    callback(result2);
+                }
+                else {
+                    callback(false);
+                }
+              });
           }
           else {
               callback(false);

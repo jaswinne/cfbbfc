@@ -140,11 +140,11 @@ var API = {
     add_conference_team: function(req,res) {
         var response = { status: {code:"0",description:":)"} };
         //required items
-        var conference_id = req.body.conference_id;
-        var team_id = req.body.team_id;
+        var conference = req.body.conference;
+        var school = req.body.school;
 
-        if (conference_id != null && team_id != null) {
-            API.database.add_conference_team(conference_id, team_id,
+        if (conference != null && school != null) {
+            API.database.add_conference_team(conference, school,
             function(update) {
                 if (update) {
                     response.update = update;
