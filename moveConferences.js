@@ -13,52 +13,77 @@ function loadTeams(){
 	var conferences = []
 	while(index < dataArr.length){
 		var confName = dataArr[index++];
+				//Set the headers
+		var confHeaders = {
+		    'Content-Type':     'application/x-www-form-urlencoded'
+		}
+
+		// Configure the request
+		var confOptions = {
+		    url: 'http://limitless-fortress-25456.herokuapp.com/conference/add',
+		    method: 'POST',
+		    headers: confHeaders,
+		    form: {'name': `${confName}`}
+		}
+
+		// Start the request
+		request(confOptions, function (error, response, body) {
+		    if (!error && response.statusCode != 200) {
+		        console.log(body)
+		    }
+		})
+		conferences.push(confName);
 		while(dataArr[index++].charAt(0) == "*"){
 			var t = new Team(dataArr[index - 1].substring(1), confName);
-			// Set the headers
-			// var headers = {
-			//     'Content-Type':     'application/x-www-form-urlencoded'
-			// }
+			//Set the headers
+			var headers = {
+			    'Content-Type':     'application/x-www-form-urlencoded'
+			}
 
-			// // Configure the request
-			// var options = {
-			//     url: 'http://limitless-fortress-25456.herokuapp.com/team/add',
-			//     method: 'POST',
-			//     headers: headers,
-			//     form: {'nickname': `${t.lookupName}`, 'mascot': `${t.mascot}`, 'school':`${t.teamName}`}
-			// }
+			// Configure the request
+			var options = {
+			    url: 'http://limitless-fortress-25456.herokuapp.com/team/add',
+			    method: 'POST',
+			    headers: headers,
+			    form: {'nickname': `${t.lookupName}`, 
+			    'mascot': `${t.mascot}`, 
+			    'school':`${t.teamName}`, 
+			    'conference':`${confName}`}
+			}
 
-			// // Start the request
-			// request(options, function (error, response, body) {
-			//     if (!error && response.statusCode == 200) {
-			//         // Print out the response body
-			//         console.log(body)
-			//     }
-			// })
+			// Start the request
+			request(options, function (error, response, body) {
+			    if (!error && response.statusCode != 200) {
+			        // Print out the response body
+			        console.log(body)
+			    }
+			});
 			teams.push(t);
 		}
-		// Set the headers
-			// var headers = {
-			//     'Content-Type':     'application/x-www-form-urlencoded'
-			// }
 
-			// // Configure the request
-			// var options = {
-			//     url: 'http://limitless-fortress-25456.herokuapp.com/conference/add',
-			//     method: 'POST',
-			//     headers: headers,
-			//     form: {'name': `${confName}`}
-			// }
-
-			// // Start the request
-			// request(options, function (error, response, body) {
-			//     if (!error && response.statusCode == 200) {
-			//         // Print out the response body
-			//         console.log(body)
-			//     }
-			// })
-		conferences.push(confName);
 	}
+	teams.forEach(function(team){
+
+			var teamToConfHeaders = {
+			    'Content-Type':     'application/x-www-form-urlencoded'
+			}
+
+			var teamToConfOptions = {
+			    url: 'http://limitless-fortress-25456.herokuapp.com/conference/add/team',
+			    method: 'POST',
+			    headers: teamToConfHeaders,
+			    form: {'school':`${team.teamName}`,
+			    'conference':`${team.conference}`}
+			}
+			request(teamToConfOptions, function (error, response, body) {
+			    if (!error && response.statusCode == 200) {
+			        // Print out the response body
+			        console.log(body);
+			    }else{
+			    	console.log("BADDDD");
+			    }
+			});
+	});
 	//console.log(teams);
 	//loadGames();
 	});
