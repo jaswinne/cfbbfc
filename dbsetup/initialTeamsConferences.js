@@ -9,7 +9,6 @@ function loadTeams(){
 			throw err; 
 		}
 		var dataArr = data.toString().split(/\n/);
-		console.log(dataArr);
 		var index = 0;
 		var teams = []
 		var conferences = []
