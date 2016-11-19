@@ -58,7 +58,7 @@ Big Ten
 
 Conference USA
 *Louisiana Tech:Louisiana Tech:Bulldogs
-*UTSA:Texas-San Antonio:Roadrunners
+*UT San Antonio:Texas-San Antonio:Roadrunners
 *Southern Miss:Southern Miss:Golden Eagles
 *North Texas:North Texas:Mean Green
 *UTEP:Texas-El Paso:Miners
@@ -67,15 +67,15 @@ Conference USA
 *Old Dominion:Old Dominion:Monarchs
 *MTSU:Middle Tennessee State:Blue Raiders
 *Charlotte:Charlotte:49ers
-*FIU:Florida International:Panthers
-*FAU:Florida Atlantic:Owls
+*Florida Intl:Florida International:Panthers
+*FL Atlantic:Florida Atlantic:Owls
 *Marshall:Marshall:Thundering Herd
 
 Independents
 *Army:Army:Black Knights
 *BYU:BYU:Cougars
 *Notre Dame:Notre Dame:Fighting Irish
-*UMass:UMass:Minutemen
+*Massachusetts:UMass:Minutemen
 
 Mid American
 *W Michigan:Western Michigan:Broncos
@@ -87,7 +87,7 @@ Mid American
 *Ohio:Ohio:Bobcats
 *Miami OH:Miami (OH):RedHawks
 *Akron:Akron:Zips
-*Kent St:Kent State:Golden Flashes
+*Kent:Kent State:Golden Flashes
 *Buffalo:Buffalo:Bulls
 *Bowling Green:Bowling Green:Falcons
 
@@ -126,7 +126,7 @@ SEC
 *LSU:LSU:Tigers
 *Arkansas:Arkansas:Razorbacks
 *Mississippi St:Mississippi State:Bulldogs
-*Ole Miss:Ole Miss:Rebels
+*Mississippi:Ole Miss:Rebels
 *Florida:Florida:Gators
 *Kentucky:Kentucky:Wildcats
 *Georgia:Georgia:Bulldogs
@@ -140,10 +140,10 @@ Sun Belt
 *Appalachian St:Appalachian State:Mountaineers
 *Arkansas St:Arkansas State:Red Wolves
 *Idaho:Idaho:Vandals
-*Georgia Southern:Georgia Southern:Eagles
-*Lafayette:Louisiana-Lafayette:Ragin' Cajuns
+*Ga Southern:Georgia Southern:Eagles
+*Lafayette,ULL:Louisiana-Lafayette:Ragin' Cajuns
 *ULM:Louisiana-Monroe:Warhawks
 *New Mexico St:New Mexico State:Aggies
 *Georgia St:Georgia State:Panthers
-*S Alabama:South Alabama:Jaguars
+*South Alabama:South Alabama:Jaguars
 *Texas St:Texas State:Bobcats
