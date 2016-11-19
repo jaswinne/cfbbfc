@@ -72,12 +72,12 @@ function loadIntoFile(input){
 	gamesArray = inp.split(os.EOL);
 
 	gamesArray.forEach(function(item, index){
-		var array = item.split(/\s+/);
+		var array = item.trim().split(/\s+/);
 		if(array.length > 4){
 			var newGame = new Game(item.split(/\s+/));
 			gamesObj.push(newGame);
 			if(newGame.hasBeenPlayed()){
-				//onsole.log(JSON.stringify(gamesObj[index]));
+				console.log(newGame.toString());
 			}
 		}
 	});
