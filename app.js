@@ -27,7 +27,7 @@ loadIntoFile = function(input){
 		if(array.length > 4){
 			gamesObj.push(new Game(item.split(/\s+/)));
 			if(gamesObj[index].hasBeenPlayed()){
-				console.log(gamesObj[index].toString());
+				console.log(JSON.stringify(gamesObj[index]));
 			}
 		}
 	});

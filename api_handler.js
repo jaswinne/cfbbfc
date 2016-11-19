@@ -105,7 +105,7 @@ var API = {
                 }
                 else {
                     response.status.code = "-22";
-                    response.status.description = "Error Inserting Into the Database.";
+                    response.status.description = "Error Inserting Team Into the Database.";
                     API.sendResponse(req,res,response);
                 }
             });
@@ -128,7 +128,7 @@ var API = {
                 }
                 else {
                     response.status.code = "-22";
-                    response.status.description = "Error Inserting Into the Database.";
+                    response.status.description = "Error Inserting Conference Into the Database.";
                     API.sendResponse(req,res,response);
                 }
             });
@@ -152,7 +152,7 @@ var API = {
                 }
                 else {
                     response.status.code = "-23";
-                    response.status.description = "Error Updating Database.";
+                    response.status.description = "Error Updating Database Conference Matching to Teams.";
                     API.sendResponse(req,res,response);
                 }
             });
