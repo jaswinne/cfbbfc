@@ -46,13 +46,14 @@ var DB = {
         DB.gameSchema = new DB.Schema({
           id: DB.Schema.ObjectId,
           season: { type: String, required: true },
+          date: { type: String, required: true },
           away_team: {
-            team_id: { type: String, required: false },
-            score: { type: String, required: false },
+            school: { type: String, required: true },
+            score: { type: Number, required: false },
           },
           home_team: {
-            team_id: { type: String, required: false },
-            score: { type: String, required: false },
+            school: { type: String, required: true },
+            score: { type: Number, required: false },
           },
         });
         DB.game = DB.database.model('games', DB.gameSchema);
@@ -105,6 +106,27 @@ var DB = {
         });
     },
     //add conference
+    add_game: function (season, date, home, home_score, away, away_score, callback) {
+        var instance = new DB.game();
+        //required fields
+        instance.season = season;
+        instance.date = date;
+        instance.home_team.school = home;
+        instance.away_team.school = away;
+        //unrequired fields
+        instance.home_team.score = home_score;
+        instance.away_team.score = away_score;
+        instance.save(function (error) {
+            if (error) {
+                console.log(error);
+                callback(false);
+            }
+            else {
+                callback(instance);
+            }
+        });
+    },
+    //connect conference to team
     add_conference_team: function (conference, school, callback) {
       DB.database.collection('conferences').update({'name': conference }, {$addToSet: { "teams": school}} , function(error, result) {
           if (result) {

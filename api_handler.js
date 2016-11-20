@@ -42,6 +42,15 @@ var API = {
                 API.methodNotAllowed(req,res);
             }
         });
+        // add game
+        API.app.all('/game/add(/)?', function(req,res) {
+            if (req.method == "POST") {
+                API.add_game(req,res);
+            }
+            else {
+                API.methodNotAllowed(req,res);
+            }
+        });
         // add team to conference
         API.app.all('/conference/add/team(/)?', function(req,res) {
             if (req.method == "POST") {
@@ -142,6 +151,35 @@ var API = {
             function(conference) {
                 if (conference) {
                     response.conference = conference;
+                    API.sendResponse(req, res, response);
+                }
+                else {
+                    response.status.code = "-22";
+                    response.status.description = "Error Inserting Conference Into the Database.";
+                    API.sendResponse(req,res,response);
+                }
+            });
+        }
+        else {
+            API.badDataReceived(req,res);
+        }
+    },
+    add_game: function(req,res) {
+        var response = { status: {code:"0",description:":)"} };
+        //required fields
+        var season = req.body.season;
+        var date = req.body.date;
+        var home = req.body.home;
+        var away = req.body.away;
+        //unrequired fields
+        var away_score = req.body.away_score;
+        var home_score = req.body.home_score;
+
+        if (season != null && date != null && home != null && away != null) {
+            API.database.add_game(season, date, home, home_score, away, away_score,
+            function(game) {
+                if (game) {
+                    response.game = game;
                     API.sendResponse(req, res, response);
                 }
                 else {
