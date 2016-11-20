@@ -9,7 +9,6 @@ class Score{
 		var isHome0 = team0.includes("@");
 		var isHome1 = team1.includes("@");
 		if(isHome0 || isHome1){
-			
 			this.homeIndex = isHome0 ? 0 : 1;
 		}
 		this.team0 = this.team0.replace("@", "");
@@ -38,8 +37,12 @@ class Score{
 		return this.score0 != 0 || this.score1 != 0;
 	}
 
-	winner(){
-		return this.hasBeenPlayed() ? (this.score0 > this.score1 ? this.team0 : this.team1) : null;
+	winningTeam(){
+		return this.hasBeenPlayed() ? (this.score0 > this.score1 ? this.team0 : this.team1) : undefined;
+	}
+
+	losingTeam(){
+		return this.hasBeenPlayed() ? (this.score0 > this.score1 ? this.team1 : this.team0) : undefined;
 	}	
 
 }

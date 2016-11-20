@@ -20,8 +20,23 @@ class Game{
 		while(isNaN(inputArr[index])){
 			secondName += inputArr[index++] + " ";
 		}
-		var secondScore = Number(inputArr[index]);
+		var secondScore = Number(inputArr[index++]);
 
+
+		if(index < inputArr.length){
+			if(inputArr[index].length < 3){
+				this.OT = inputArr[index++]
+			}
+			if(index < inputArr.length){
+				this.neutralLocation = "";
+				while(index < inputArr.length){
+					this.neutralLocation += inputArr[index++] + " ";
+				}
+				if(this.neutralLocation.trim().length === 0){
+					this.neutralLocation = undefined;
+				}
+			}
+		}
 		//
 		//   Using it
 		//
@@ -30,7 +45,7 @@ class Game{
 	}
 
 	toString(){
-		return this.hasBeenPlayed() ? `${this.date} ${this.score.toString()}` : "";
+		return this.hasBeenPlayed() ? `${this.date} ${this.score.toString()}${this.OT ? " (" + this.OT + ") ":""}${this.neutralLocation ?  "  @ "+this.neutralLocation:""}`: "";
 	}
 
 	hasBeenPlayed(){
