@@ -122,5 +122,25 @@ var DB = {
           }
       });
     },
+    get_team: function(school, callback) {
+        DB.database.collection('teams').find({'school': school}).limit(1).toArray(function(err,docs) {
+            if (docs[0] != null) {
+                callback(docs);
+            }
+            else {
+                callback(err);
+            }
+        });
+    },
+    get_conference: function(name, callback) {
+        DB.database.collection('conferences').find({'name': name}).limit(1).toArray(function(err,docs) {
+            if (docs[0] != null) {
+                callback(docs);
+            }
+            else {
+                callback(err);
+            }
+        });
+    },
 };
 module.exports = DB;

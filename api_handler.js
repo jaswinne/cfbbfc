@@ -51,6 +51,24 @@ var API = {
                 API.methodNotAllowed(req,res);
             }
         });
+        // get conference
+        API.app.all('/conference(/)?', function(req,res) {
+            if (req.method == "GET") {
+                API.conferences(req,res);
+            }
+            else {
+                API.methodNotAllowed(req,res);
+            }
+        });
+        // get team
+        API.app.all('/team(/)?', function(req,res) {
+            if (req.method == "GET") {
+                API.teams(req,res);
+            }
+            else {
+                API.methodNotAllowed(req,res);
+            }
+        });
 
         // this handles generic file routing, and 404's the rest.
         API.app.get('/*(/)?',function(req,res){
@@ -156,6 +174,46 @@ var API = {
                     API.sendResponse(req,res,response);
                 }
             });
+        }
+        else {
+            API.badDataReceived(req,res);
+        }
+    },
+    teams: function(req,res) {
+        var response = { status: {code:"0",description:":)"} };
+
+        var school = req.query.school;
+
+        if (school != null) {
+          var team = API.database.get_team(school, function(team){
+              if (team) {
+                  response.team = team;
+                  API.sendResponse(req,res,response);
+              }
+              else {
+                  API.badDataReceived(req,res);
+              }
+          });
+        }
+        else {
+            API.badDataReceived(req,res);
+        }
+    },
+    conferences: function(req,res) {
+        var response = { status: {code:"0",description:":)"} };
+
+        var name = req.query.name;
+
+        if (name != null) {
+          var conference = API.database.get_conference(name, function(conference){
+              if (conference) {
+                  response.conference = conference;
+                  API.sendResponse(req,res,response);
+              }
+              else {
+                  API.badDataReceived(req,res);
+              }
+          });
         }
         else {
             API.badDataReceived(req,res);
