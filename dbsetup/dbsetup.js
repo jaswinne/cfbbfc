@@ -50,9 +50,17 @@ function loadTeams(){
 				//NEED BETTER SORTING ALGORITHM/DIVISIONS?
 
 				confTeams.sort(function(team1, team2){
-					return team1.conference.trim().toLowerCase() === 'independents' ?
-						team2.winPct() - team1.winPct()
-						:team2.confWinPct() - team1.confWinPct();
+					if(team1.conference.trim().toLowerCase() === 'independents'){
+						return team2.winPct() - team1.winPct();
+					}
+					else{
+						if(Math.abs(team2.confWinPct() - team1.confWinPct()) < .0001){
+							return team2.winPct() - team1.winPct();
+						}else{
+							return team2.confWinPct() - team1.confWinPct();
+						}
+					}
+					
 				});
 
 
