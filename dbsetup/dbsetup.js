@@ -45,7 +45,7 @@ function loadTeams(){
 					return team.conference.trim().toLowerCase() === conf.trim().toLowerCase();
 				});
 
-				console.log(`${conf}\n__________________`);
+				//console.log(`${conf}\n__________________`);
 
 				//NEED BETTER SORTING ALGORITHM/DIVISIONS?
 
@@ -65,9 +65,9 @@ function loadTeams(){
 
 
 				confTeams.forEach(function(team, index){
-					console.log(`${index + 1}. ${team.toStringWithRecord()}`);
+					//console.log(`${index + 1}. ${team.toStringWithRecord()}`);
 				});
-				console.log("\n");
+				//console.log("\n");
 			})
 		});
 
@@ -82,10 +82,14 @@ function loadIntoFile(input){
 	gamesArray.forEach(function(item, index){
 		var array = item.trim().split(/\s+/);
 		if(array.length > 4){
-			var newGame = new Game(item.split(/\s+/));
+			var newGame = new Game(array);
 			gamesObj.push(newGame);
+			//gamePost(newGame);
 			if(newGame.hasBeenPlayed()){
-				console.log(newGame.toString());
+				
+				//console.log(newGame.toString());
+			}else{
+				//console.log(newGame.toString());
 			}
 		}
 	});
@@ -94,37 +98,58 @@ function loadIntoFile(input){
 	//LOAD TEAMS FROM API?
 	//console.log(teams);
 	gamesObj.forEach(function(game){
-		var winningTeamName = game.score.winningTeam();
-		var losingTeamName = game.score.losingTeam();
-		//console.log(`${winningTeamName} > ${losingTeamName}`)
-		var winningTeam = teams.filter(function(team){
-			return team.matchesLookup(winningTeamName);
-		})[0];
+		if(game.hasBeenPlayed()){
+			var winningTeamName = game.winningTeam();
+			var losingTeamName = game.losingTeam();
+			console.log(`${winningTeamName} > ${losingTeamName}`)
+			//console.log("GAME: " + game.toString());
+			//console.log(`${winningTeamName} > ${losingTeamName}`)
+			var winningTeam = teams.filter(function(team){
+				return team.matchesLookup(winningTeamName);
+			})[0];
 
-		var losingTeam = teams.filter(function(team){
-			return team.matchesLookup(losingTeamName);
-		})[0];
+			var losingTeam = teams.filter(function(team){
+				return team.matchesLookup(losingTeamName);
+			})[0];
 
-		if(winningTeam || losingTeam){
-			
-			if(winningTeam && losingTeam){
-				//console.log(`${winningTeam.teamName} (${winningTeam.conference}) BEAT ${losingTeam.teamName} (${losingTeam.conference})`);
-				winningTeam.wins++;
-				winningTeam.games.push(game);
-				losingTeam.losses++;
-				losingTeam.games.push(game);
-				if(winningTeam.conference.trim().toLowerCase() === losingTeam.conference.trim().toLowerCase()){
-					winningTeam.confWins++;
-					losingTeam.confLosses++;
+			if(winningTeam || losingTeam){
+				if(winningTeam && losingTeam){
+					//console.log(`${winningTeam.teamName} (${winningTeam.conference}) BEAT ${losingTeam.teamName} (${losingTeam.conference})`);
+					winningTeam.wins++;
+					winningTeam.games.push(game);
+					losingTeam.losses++;
+					losingTeam.games.push(game);
+					if(winningTeam.conference.trim().toLowerCase() === losingTeam.conference.trim().toLowerCase()){
+						winningTeam.confWins++;
+						losingTeam.confLosses++;
+					}
+				}else if(!losingTeam){
+					//Winning team beat a non FBS team
+					winningTeam.wins++;
+					winningTeam.games.push(game);
+				}else{
+					//Winning team lost to a non FBS team
+					losingTeam.losses++;
+					losingTeam.games.push(game);
 				}
-			}else if(!losingTeam){
-				//Winning team beat a non FBS team
-				winningTeam.wins++;
-				winningTeam.games.push(game);
-			}else{
-				//Winning team lost to a non FBS team
-				losingTeam.losses++;
-				losingTeam.games.push(game);
+			}
+		}else{
+			var homeTeamLookupName = game.homeTeamLookupName;
+			var awayTeamLookupName = game.awayTeamLookupName;
+
+			var homeTeam = teams.filter(function(team){
+				return team.matchesLookup(homeTeamLookupName);
+			})[0];
+
+			var awayTeam = teams.filter(function(team){
+				return team.matchesLookup(awayTeamLookupName);
+			})[0];
+
+			if(homeTeam){
+				homeTeam.games.push(game);
+			}
+			if(awayTeam){
+				awayTeam.games.push(game);
 			}
 		}
 		
@@ -136,7 +161,8 @@ function loadGames(callback){
 
 	var options = {
 	  host: 'www.masseyratings.com',
-	  path: '/scores.php?s=286577&sub=11604&all=1'
+	  //path: '/scores.php?s=286577&sub=11604&all=1'
+	  path: '/scores.php?s=286577&sub=11604&all=1&mode=3&sch=on&format=0'
 	  //path: '/scores.php?s=286577&sub=12801&all=1&mode=2&sch=on&format=0'
 	};
 
@@ -151,11 +177,61 @@ function loadGames(callback){
 
 			//the whole response has been recieved, so we just print it out here
 			response.on('end', function () {
-			loadIntoFile(str,teams);
+			loadIntoFile(str);
 			callback();
 		});
 	}).end();
 
+}
+
+function gamePost(game){
+	// if(game.score.homeTeam() === game.score.awayTeam()){
+	// 	console.log(game.toString());
+	// }
+	var headers = {
+	    'Content-Type':     'application/x-www-form-urlencoded'
+	}
+
+	var homeTeamObj = teams.filter(function(thisTeam){
+		//console.log(thisTeam);
+		return thisTeam.matchesLookup(game.homeTeamLookupName);
+	});
+	var homeTeamRealName = undefined;
+	if(homeTeamObj.length > 0){
+		homeTeamRealName = homeTeamObj[0].teamName;
+	}
+
+	var gameInputHomeName = homeTeamRealName ? homeTeamRealName : game.homeTeamLookupName;
+
+	var awayTeamObj = teams.filter(function(thisTeam){
+		return thisTeam.matchesLookup(game.awayTeamLookupName);
+	});
+	var awayTeamRealName = undefined;
+	if(awayTeamObj.length > 0){
+		awayTeamRealName = awayTeamObj[0].teamName;
+	}
+
+	var gameInputAwayName = awayTeamRealName ? awayTeamRealName : game.awayTeamLookupName;
+
+	var options = {
+	    url: `${baseURL}/game/add`,
+	    method: 'POST',
+	    headers: headers,
+	    form: { 
+	    		'season':'2016-2017',
+				'date' : `${game.date}`,
+				'home': `${gameInputHomeName}`,
+				'away': `${gameInputAwayName}`,
+				'home_score': game.homePoints,
+				'away_score': game.awayPoints
+			}
+	}
+
+	request(options, function (error, response, body) {
+	    if (!error && response.statusCode == 200) {
+	        console.log(body)
+	    }
+	})
 }
 
 function conferencesPost(conferenceName){
@@ -233,9 +309,10 @@ class Team{
 		this.games = []
 	}
 
-	matchesLookup(teamName){
+	matchesLookup(teamNameIn){
 		return this.lookupNames.filter(function(lookupName){
-			return lookupName.toLowerCase().trim() === teamName.toLowerCase().trim();
+			//console.log(teamNameIn);
+			return lookupName.toLowerCase().trim() === teamNameIn.toLowerCase().trim();
 		}).length > 0;
 	}
 
