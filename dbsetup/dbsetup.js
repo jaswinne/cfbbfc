@@ -2,6 +2,7 @@ var fs = require('fs');
 var request = require('request');
 var http = require('http');
 var os = require('os');
+
 var Game = require('../Game').Game;
 
 const baseURL = 'http://limitless-fortress-25456.herokuapp.com'
@@ -9,66 +10,50 @@ const baseURL = 'http://limitless-fortress-25456.herokuapp.com'
 
 var teams = []
 var conferences = []
-var gamesObj = [];
+var gamesObj = []
 
 function loadTeams(){
 	fs.readFile( __dirname + '/conferences.txt', function (err, data) {
+		
 		if (err) {
 			throw err; 
 		}
+
 		var dataArr = data.toString().split(/\n/);
 		var index = 0;
 		while(index < dataArr.length){
+
 			var conferenceName = dataArr[index++];
-
 			conferences.push(conferenceName);
-
-			//conferencesPost(conferenceName);
+			conferencesPost(conferenceName);
 
 			while(dataArr[index++].charAt(0) == "*"){
-
 				var team = new Team(dataArr[index - 1].substring(1), conferenceName);
-			
 				teams.push(team);
-
-				//teamsPost(team);
+				teamsPost(team);
 			}
 
 		}
+
+		//Takes all teams and puts them into their conferences in the db
 		teams.forEach(function(team){
-			//teamsToConferencesPost(team);
+			teamsToConferencesPost(team);
 		});
 
+		//passed function is a callback called when loading games is finished
 		loadGames(function(){
-			conferences.forEach(function(conf){
-				var confTeams = teams.filter(function(team){
-					return team.conference.trim().toLowerCase() === conf.trim().toLowerCase();
-				});
-
-				//console.log(`${conf}\n__________________`);
-
-				//NEED BETTER SORTING ALGORITHM/DIVISIONS?
-
-				confTeams.sort(function(team1, team2){
-					if(team1.conference.trim().toLowerCase() === 'independents'){
-						return team2.winPct() - team1.winPct();
+			var homeWins = 0;
+			var homeLosses = 0;
+			gamesObj.forEach(function(game){
+				if(game.hasBeenPlayed() && !game.isNeutral){
+					if(game.winningTeam() === game.homeTeamLookupName){
+						homeWins++;
+					}else{
+						homeLosses++;
 					}
-					else{
-						if(Math.abs(team2.confWinPct() - team1.confWinPct()) < .0001){
-							return team2.winPct() - team1.winPct();
-						}else{
-							return team2.confWinPct() - team1.confWinPct();
-						}
-					}
-					
-				});
-
-
-				confTeams.forEach(function(team, index){
-					//console.log(`${index + 1}. ${team.toStringWithRecord()}`);
-				});
-				//console.log("\n");
+				}
 			})
+			console.log("Home record on the season: " + (homeWins / (homeWins + homeLosses)));
 		});
 
 		
@@ -84,7 +69,7 @@ function loadIntoFile(input){
 		if(array.length > 4){
 			var newGame = new Game(array);
 			gamesObj.push(newGame);
-			//gamePost(newGame);
+			gamePost(newGame);
 			if(newGame.hasBeenPlayed()){
 				
 				//console.log(newGame.toString());
@@ -101,7 +86,7 @@ function loadIntoFile(input){
 		if(game.hasBeenPlayed()){
 			var winningTeamName = game.winningTeam();
 			var losingTeamName = game.losingTeam();
-			console.log(`${winningTeamName} > ${losingTeamName}`)
+			//console.log(`${winningTeamName} > ${losingTeamName}`)
 			//console.log("GAME: " + game.toString());
 			//console.log(`${winningTeamName} > ${losingTeamName}`)
 			var winningTeam = teams.filter(function(team){
