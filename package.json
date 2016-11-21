@@ -9,7 +9,15 @@
   "author": "Michael Mahler & Nate Whitesell",
   "license": "ISC",
   "dependencies": {
-    "socket.io": "~1.3.7"
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "moment-timezone": "^0.5.9",
+    "mongodb": "^2.2.11",
+    "mongoose": "^4.6.8",
+    "nodemailer": "^2.6.4",
+    "request": "^2.79.0",
+    "socket.io": "^1.3.7",
+    "stripe": "^4.12.0"
   },
   "homepage": "http://piggybacknwa.com"
 }
