@@ -56,6 +56,7 @@ var DB = {
             score: { type: Number, required: false },
           },
         });
+        DB.gameSchema.index({"season": 1, "date": 1, "home_team.school": 1, "away_team.school": 1}, {unique: true});
         DB.game = DB.database.model('games', DB.gameSchema);
 
         //create the conference schema
@@ -156,6 +157,46 @@ var DB = {
     },
     get_conference: function(name, callback) {
         DB.database.collection('conferences').find({'name': name}).limit(1).toArray(function(err,docs) {
+            if (docs[0] != null) {
+                callback(docs);
+            }
+            else {
+                callback(err);
+            }
+        });
+    },
+    get_game: function(home, away, date, season, callback) {
+        DB.database.collection('games').find({'home_team.school': home, 'away_team.school': away, 'date': date, 'season': season}).limit(1).toArray(function(err,docs) {
+            if (docs[0] != null) {
+                callback(docs);
+            }
+            else {
+                callback(err);
+            }
+        });
+    },
+    get_teams: function(callback) {
+        DB.database.collection('teams').find().limit(100000).toArray(function(err,docs) {
+            if (docs[0] != null) {
+                callback(docs);
+            }
+            else {
+                callback(err);
+            }
+        });
+    },
+    get_conferences: function(callback) {
+        DB.database.collection('conferences').find().limit(100000).toArray(function(err,docs) {
+            if (docs[0] != null) {
+                callback(docs);
+            }
+            else {
+                callback(err);
+            }
+        });
+    },
+    get_games: function(callback) {
+        DB.database.collection('games').find().limit(100000).toArray(function(err,docs) {
             if (docs[0] != null) {
                 callback(docs);
             }

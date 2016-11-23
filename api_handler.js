@@ -63,7 +63,7 @@ var API = {
         // get conference
         API.app.all('/conference(/)?', function(req,res) {
             if (req.method == "GET") {
-                API.conferences(req,res);
+                API.conference(req,res);
             }
             else {
                 API.methodNotAllowed(req,res);
@@ -72,7 +72,43 @@ var API = {
         // get team
         API.app.all('/team(/)?', function(req,res) {
             if (req.method == "GET") {
+                API.team(req,res);
+            }
+            else {
+                API.methodNotAllowed(req,res);
+            }
+        });
+        // get game
+        API.app.all('/game(/)?', function(req,res) {
+            if (req.method == "GET") {
+                API.game(req,res);
+            }
+            else {
+                API.methodNotAllowed(req,res);
+            }
+        });
+        // get conference
+        API.app.all('/conferences(/)?', function(req,res) {
+            if (req.method == "GET") {
+                API.conferences(req,res);
+            }
+            else {
+                API.methodNotAllowed(req,res);
+            }
+        });
+        // get team
+        API.app.all('/teams(/)?', function(req,res) {
+            if (req.method == "GET") {
                 API.teams(req,res);
+            }
+            else {
+                API.methodNotAllowed(req,res);
+            }
+        });
+        // get game
+        API.app.all('/games(/)?', function(req,res) {
+            if (req.method == "GET") {
+                API.games(req,res);
             }
             else {
                 API.methodNotAllowed(req,res);
@@ -217,7 +253,7 @@ var API = {
             API.badDataReceived(req,res);
         }
     },
-    teams: function(req,res) {
+    team: function(req,res) {
         var response = { status: {code:"0",description:":)"} };
 
         var school = req.query.school;
@@ -237,7 +273,7 @@ var API = {
             API.badDataReceived(req,res);
         }
     },
-    conferences: function(req,res) {
+    conference: function(req,res) {
         var response = { status: {code:"0",description:":)"} };
 
         var name = req.query.name;
@@ -256,6 +292,66 @@ var API = {
         else {
             API.badDataReceived(req,res);
         }
+    },
+    game: function(req,res) {
+        var response = { status: {code:"0",description:":)"} };
+
+        var home = req.query.home;
+        var away = req.query.away;
+        var date = req.query.date;
+        var season = req.query.season;
+
+        if (home != null && away != null && date != null && season != null) {
+          var game = API.database.get_game(home, away, date, season, function(game){
+              if (game) {
+                  response.game = game;
+                  API.sendResponse(req,res,response);
+              }
+              else {
+                  API.badDataReceived(req,res);
+              }
+          });
+        }
+        else {
+            API.badDataReceived(req,res);
+        }
+    },
+    teams: function(req,res) {
+        var response = { status: {code:"0",description:":)"} };
+        var team = API.database.get_teams(function(team){
+            if (team) {
+                response.team = team;
+                API.sendResponse(req,res,response);
+            }
+            else {
+                API.badDataReceived(req,res);
+            }
+        });
+    },
+    conferences: function(req,res) {
+        var response = { status: {code:"0",description:":)"} };
+        var conferences = API.database.get_conferences(function(conferences){
+            if (conferences) {
+                response.conferences = conferences;
+                API.sendResponse(req,res,response);
+            }
+            else {
+                API.badDataReceived(req,res);
+            }
+        });
+    },
+    games: function(req,res) {
+        var response = { status: {code:"0",description:":)"} };
+
+        var games = API.database.get_games(function(games){
+            if (games) {
+                response.games = games;
+                API.sendResponse(req,res,response);
+            }
+            else {
+                API.badDataReceived(req,res);
+            }
+        });
     },
     // generic response handlers
     sendResponse: function (req, res, response_object){
