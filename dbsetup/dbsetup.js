@@ -25,19 +25,19 @@ function loadTeams(){
 
 			var conferenceName = dataArr[index++];
 			conferences.push(conferenceName);
-			conferencesPost(conferenceName);
+			//conferencesPost(conferenceName);
 
 			while(dataArr[index++].charAt(0) == "*"){
 				var team = new Team(dataArr[index - 1].substring(1), conferenceName);
 				teams.push(team);
-				teamsPost(team);
+				//teamsPost(team);
 			}
 
 		}
 
 		//Takes all teams and puts them into their conferences in the db
 		teams.forEach(function(team){
-			teamsToConferencesPost(team);
+			//teamsToConferencesPost(team);
 		});
 
 		//passed function is a callback called when loading games is finished
@@ -59,6 +59,7 @@ function loadTeams(){
 		
 	});
 }
+var count = 0;
 
 function loadIntoFile(input){
 	var inp = input.substring(input.indexOf("<pre>") + 5, input.indexOf("</pre>"));
@@ -215,6 +216,8 @@ function gamePost(game){
 	request(options, function (error, response, body) {
 	    if (!error && response.statusCode == 200) {
 	        console.log(body)
+
+			//console.log(count++);
 	    }
 	})
 }
