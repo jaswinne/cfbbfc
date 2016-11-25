@@ -6,7 +6,7 @@ import createLogger from 'redux-logger'
 import { createStore, applyMiddleware } from 'redux'
 import myApp from './reducers'
 import AppContainer from './containers/AppContainer'
-import {fetchPosts} from './actions.js'
+import {fetchGames, fetchTeams, fetchConferences} from './actions.js'
 
 const loggerMiddleware = createLogger();
 
@@ -18,11 +18,13 @@ let store = createStore(
   	)
 	)
 
-store.dispatch(fetchPosts())
+store.dispatch(fetchGames());
+store.dispatch(fetchTeams());
+store.dispatch(fetchConferences());
 
 render(
   <Provider store={store}>
-    <AppContainer games={store.getState().games}/>
+    <AppContainer/>
   </Provider>,
   document.getElementById('root')
 )
