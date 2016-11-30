@@ -1,3 +1,5 @@
+var BOT = require('./bot');
+
 var API = {
 
     init: function(a,s,d){
@@ -24,6 +26,26 @@ var API = {
             console.log("Failure: API Initialization");
     },
     start: function() {
+        /*
+            BOT CODE
+        */
+
+            API.app.all('/bot(/)?', (request, response) => {
+                if(request.method === "POST"){
+                    console.log("BOT REQUEST");
+                    API.bot(request, response);
+                }
+                else {
+                    API.methodNotAllowed(request,response);
+                }
+            });
+
+
+        /*
+            CFB CODE
+        */
+
+
         // add team
         API.app.all('/team/add(/)?', function(req,res) {
             if (req.method == "POST") {
@@ -33,6 +55,7 @@ var API = {
                 API.methodNotAllowed(req,res);
             }
         });
+        
         // add conference
         API.app.all('/conference/add(/)?', function(req,res) {
             if (req.method == "POST") {
@@ -144,7 +167,35 @@ var API = {
         console.log('API Started');
     },
 
-    //API calls
+    // API BOT CALLS
+
+    bot: (request, response) => {
+
+        var responseOut = { status: {code:"69",description:"harambot has spoken"} };
+        var input = request.body.input;
+        console.log(input);
+        if(input){
+            //database call??
+            var botResponse = BOT.parse(input);
+            responseOut.output = botResponse;
+            API.sendResponse(request, response, responseOut);
+        }
+        else {
+            responseOut.status.code = "-69";
+            responseOut.status.description = "Error with input to bot. Use \"input\" as the key for the data";
+            API.sendResponse(request,response,responseOut);
+        }
+    },
+
+
+
+
+
+
+
+
+
+    //API CFB calls
     add_team: function(req,res) {
         var response = { status: {code:"0",description:":)"} };
         //required fields
