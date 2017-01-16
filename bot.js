@@ -1,6 +1,7 @@
 var BOT = {
 	parse: (input) => {
-		return input + "GOFUCKYOURSELF";
+		//ALL BOT LOGIC
+		if()
 	}
 }
 

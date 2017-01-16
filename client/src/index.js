@@ -9,18 +9,22 @@ import AppContainer from './containers/AppContainer'
 import {fetchGames, fetchTeams, fetchConferences} from './actions.js'
 
 const loggerMiddleware = createLogger();
-
+ 
 let store = createStore(
-	myApp,
-	applyMiddleware(
-    	thunkMiddleware, // lets us dispatch() functions
-    	loggerMiddleware // neat middleware that logs actions
-  	)
-	)
+  myApp,
+  applyMiddleware(
+      thunkMiddleware, // lets us dispatch() functions
+      loggerMiddleware // neat middleware that logs actions
+    )
+  )
+var dataFetch = () => {
+  store.dispatch(fetchGames());
+  store.dispatch(fetchTeams());
+  store.dispatch(fetchConferences());
+}
 
-store.dispatch(fetchGames());
-store.dispatch(fetchTeams());
-store.dispatch(fetchConferences());
+
+dataFetch();
 
 render(
   <Provider store={store}>

@@ -88,7 +88,7 @@ export function changeSearchTerm(searchTerm){
 }
 
 
-export const CHANGE_TEAM_DROP_DOWN= 'CHANGE_TEAM_DROP_DOWN';
+export const CHANGE_TEAM_DROP_DOWN = 'CHANGE_TEAM_DROP_DOWN';
 export function changeTeamDropdown(searchTerm){
 	return {
 		type : CHANGE_TEAM_DROP_DOWN,

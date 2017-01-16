@@ -3,8 +3,7 @@ import '../App.css';
 import GameView from './GameView'
 import TeamSearchContainer from '../containers/TeamSearchContainer'
 
-
-    var id = 0;
+var id = 0;
 class App extends Component {
     render() {
       return (

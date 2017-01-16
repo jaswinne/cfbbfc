@@ -5,8 +5,8 @@ const games = (state = {
               visibleGames:[],
               teams: [],
               conferences: [],
-              teamDropdownVisible: false,
-              defaultName: 'Arkansas'}, action) => {
+              teamDropdownVisible: false
+            }, action) => {
 
 
   switch (action.type) {
